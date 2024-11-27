@@ -29,4 +29,17 @@ describe("Check Add to cart Functionality", () => {
     );
     cy.get(".counter-number").should("be.hidden");
   });
+
+  it("Validate that the user can update products from his shopping cart.", () => {
+    cy.get(".minicart-wrapper").click();
+    cy.get(".minicart-items-wrapper")
+      .should("be.visible")
+      .and("contain", "Circe Hooded Ice Fleece");
+    cy.get(".item-qty.cart-item-qty").clear().type("3");
+    cy.wait(3000);
+    cy.get(".update-cart-item").should("be.visible").click();
+    cy.wait(3000);
+    cy.get(".count").and("contain", "3");
+    cy.get(".amount.price-container").and("contain", "$204.00");
+  });
 });
