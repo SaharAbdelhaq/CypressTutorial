@@ -6,9 +6,17 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
     baseUrl: "https://magento.softwaretestingboard.com",
-    video: true,
+    video: false,
     trashAssetsBeforeRuns: true,
     videosFolder: "MyVideos",
     videoCompression: 0,
+    reporter: "mochawesome",
+    reporterOptions: {
+      reportDir: "cypress/myReport",
+      overwrite: false,
+      html: true,
+      json: false,
+      timestamp: "mmddyyyy_HHMMss",
+    },
   },
 });
