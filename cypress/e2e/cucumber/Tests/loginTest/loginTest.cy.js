@@ -1,21 +1,30 @@
 import { Given, When, And } from "cypress-cucumber-preprocessor/steps";
 
+// i will apply the Page Object Model to my Login tests.
+import loginAcctions from "../../../../support/PageObjets/Login/actions.cy";
+import sharedAssertions from "../../../../support/PageObjets/shared/sharedAssertions.cy";
+const loginAcction = new loginAcctions();
+const sharedAssertion = new sharedAssertions();
+
+const Email = "saharabdelhaq02@gmail.com";
+const Password = "ghgh123456789++";
+const tilteVlue = "My Account";
 Given("The user navigates to sign in page in Magento Webite", () => {
-  cy.visit("https://magento.softwaretestingboard.com/customer/account/login");
+  loginAcction.openLoginPage();
 });
 
 When("The user types email in the email input field", () => {
-  cy.get("#email").type("saharabdelhaq02@gmail.com");
+  loginAcction.typeEmailInEmailInputField(Email);
 });
 
 And("The user types password in the password input field", () => {
-  cy.get("#pass").type("ghgh123456789++");
+  loginAcction.typePasswordInPasswordInputField(Password);
 });
 
 And("The user clicks the SignIn button", () => {
-  cy.get("#send2").click();
+  loginAcction.clickOnSignInButton();
 });
 
 Then("The user will directed to My Account Page", () => {
-  cy.get(".page-title-wrapper").should("contain", "My Account");
+  sharedAssertion.checkPageTitleIsContain(tilteVlue);
 });
