@@ -21,21 +21,31 @@ And("Click on List View", () => {
 });
 
 And("Add the Watch that its price is more than 55 to the Cart", () => {
-  cy.get(".product.details.product-item-details").then((products) => {
-    for (let i = 0; i < products.length; i++) {
-      cy.wrap(products[i])
-        .invoke("text")
-        .then((productPrice) => {
-          let price = productPrice.replace("$", " ");
-          let finalPrice = parseInt(price);
-          if (finalPrice > 55) {
-            cy.wrap(products[i]).contains("Add To Cart").click({ force: true });
-            cy.wait(2000);
-            cartCounter++;
-          }
-        });
-    }
-  });
+  cy.get(".product-items")
+    .first()
+    .find("li .price")
+    .then((products) => {
+      for (let i = 0; i < products.length; i++) {
+        cy.wrap(products[i])
+          .invoke("text")
+          .then((productPrice) => {
+            let price = productPrice.replace("$", " ").trim();
+            let finalPrice = parseInt(price);
+            if (finalPrice > 55) {
+              cy.get(".product-items")
+                .first()
+                .find("li .price")
+                .eq(i)
+                .parents(".price-box")
+                .next()
+                .find("button.tocart")
+                .click({ force: true });
+              cy.wait(2000);
+              cartCounter++;
+            }
+          });
+      }
+    });
 });
 
 Then("The Selected Watches will be added to the cart", () => {
